@@ -7,7 +7,9 @@ defmodule BlockScoutWeb.AddressContractVerificationController do
   alias Explorer.Chain
   alias Explorer.Chain.Events.Publisher, as: EventsPublisher
   alias Explorer.Chain.SmartContract
-  alias Explorer.SmartContract.{PublisherWorker, Solidity.CodeCompiler, Solidity.CompilerVersion}
+  alias Explorer.SmartContract.{CompilerVersion, Solidity.CodeCompiler}
+  alias Explorer.SmartContract.Solidity.PublisherWorker, as: SolidityPublisherWorker
+  alias Explorer.SmartContract.Vyper.PublisherWorker, as: VyperPublisherWorker
   alias Explorer.ThirdPartyIntegrations.Sourcify
 
   def new(conn, %{"address_id" => address_hash_string}) do
@@ -26,7 +28,7 @@ defmodule BlockScoutWeb.AddressContractVerificationController do
         )
 
       compiler_versions =
-        case CompilerVersion.fetch_versions() do
+        case CompilerVersion.fetch_versions(:solc) do
           {:ok, compiler_versions} ->
             compiler_versions
 
@@ -50,7 +52,39 @@ defmodule BlockScoutWeb.AddressContractVerificationController do
           "external_libraries" => external_libraries
         }
       ) do
-    Que.add(PublisherWorker, {smart_contract["address_hash"], smart_contract, external_libraries, conn})
+    Que.add(SolidityPublisherWorker, {smart_contract["address_hash"], smart_contract, external_libraries, conn})
+
+    send_resp(conn, 204, "")
+  end
+
+  # sobelow_skip ["Traversal.FileModule"]
+  def create(
+        conn,
+        %{
+          "smart_contract" => smart_contract,
+          "file" => files
+        }
+      ) do
+    files_array = prepare_files_array(files)
+
+    with %Plug.Upload{path: path} <- get_one_json(files_array),
+         {:ok, json_input} <- File.read(path) do
+      Que.add(SolidityPublisherWorker, {smart_contract, json_input, conn})
+    else
+      _ ->
+        nil
+    end
+
+    send_resp(conn, 204, "")
+  end
+
+  def create(
+        conn,
+        %{
+          "smart_contract" => smart_contract
+        }
+      ) do
+    Que.add(VyperPublisherWorker, {smart_contract["address_hash"], smart_contract, conn})
 
     send_resp(conn, 204, "")
   end
@@ -64,11 +98,7 @@ defmodule BlockScoutWeb.AddressContractVerificationController do
       ) do
     files_array = prepare_files_array(files)
 
-    json_files =
-      files_array
-      |> Enum.filter(fn file -> file.content_type == "application/json" end)
-
-    json_file = json_files |> Enum.at(0)
+    json_file = get_one_json(files_array)
 
     if json_file do
       if Chain.smart_contract_fully_verified?(address_hash_string) do
@@ -104,7 +134,7 @@ defmodule BlockScoutWeb.AddressContractVerificationController do
   end
 
   def create(conn, _params) do
-    Que.add(PublisherWorker, {"", %{}, %{}, conn})
+    Que.add(SolidityPublisherWorker, {"", %{}, %{}, conn})
 
     send_resp(conn, 204, "")
   end
@@ -173,6 +203,12 @@ defmodule BlockScoutWeb.AddressContractVerificationController do
 
   def prepare_files_array(files) do
     if is_map(files), do: Enum.map(files, fn {_, file} -> file end), else: []
+  end
+
+  defp get_one_json(files_array) do
+    files_array
+    |> Enum.filter(fn file -> file.content_type == "application/json" end)
+    |> Enum.at(0)
   end
 
   defp prepare_verification_error(msg, address_hash_string, conn) do
