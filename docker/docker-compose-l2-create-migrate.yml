@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  migrate-l2:
+    image: metis/blockscout
+    # depends_on:
+    #   - postgres
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+    env_file:
+      - envs/l2-local.env
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@192.168.31.146:5432/blockscout-l2?ssl=false
+    command: mix do ecto.create, ecto.migrate
