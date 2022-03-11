@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  blockscout-l2:
+    image: metis/blockscout_explorer
+    # depends_on:
+    #   - postgres
+    build:
+      context: ..
+      dockerfile: ./docker/explorer_only/Dockerfile
+    expose:
+      - 4000
+    ports:
+      - 4000:4000
+    env_file:
+      - envs/l2-488.env
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@192.168.31.146:5432/blockscout-l2?ssl=false
+    command: mix phx.server

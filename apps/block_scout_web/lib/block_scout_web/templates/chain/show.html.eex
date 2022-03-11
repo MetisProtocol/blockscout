@@ -1,4 +1,4 @@
-<div class='dashboard-banner-container' data-page="chain-details">
+<div class='dashboard-banner-container' data-page="chain-details" style="background: #303042 url('/images/metis-splash.png') left bottom no-repeat!important; background-size: contain;">
   <div class="container">
     <div class="dashboard-banner">
       <div class="dashboard-banner-splash">

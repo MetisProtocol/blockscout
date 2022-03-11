@@ -34,8 +34,6 @@ defmodule Indexer.Application do
       name: Indexer.Application
     ]
 
-    if Application.get_env(:indexer, :indexer_disable_service) do
-      Supervisor.start_link(children, opts)
-    end
+    Supervisor.start_link(children, opts)
   end
 end
