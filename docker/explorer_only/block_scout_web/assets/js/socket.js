@@ -5,7 +5,7 @@ import { locale } from './locale'
 // if (!websocketRootUrl || websocketRootUrl === '/') {
 //   websocketRootUrl = ''
 // }
-const websocketRootUrl = 'ws://18.217.176.16:8082'
+const websocketRootUrl = 'wss://andromeda-explorer-index.metis.io'
 const socket = new Socket(websocketRootUrl + '/socket', { params: { locale: locale } })
 socket.connect()
 
