@@ -13,7 +13,7 @@ services:
     ports:
       - 4000:4000
     env_file:
-      - envs/l2-488.env
+      - envs/l2-588.env
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@192.168.31.146:5432/blockscout-l2?ssl=false
+      - DATABASE_URL=postgresql://postgres:postgres@192.168.31.146:5432/blockscout_l2?ssl=false
     command: mix phx.server
