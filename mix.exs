@@ -7,11 +7,11 @@ defmodule BlockScout.Mixfile do
     [
       app: :block_scout,
       aliases: aliases(Mix.env()),
-      version: "2.0",
+      version: "4.1.2",
       apps_path: "apps",
       deps: deps(),
       dialyzer: dialyzer(),
-      elixir: "~> 1.10",
+      elixir: "~> 1.12",
       preferred_cli_env: [
         credo: :test,
         dialyzer: :test
@@ -77,7 +77,7 @@ defmodule BlockScout.Mixfile do
       {:absinthe_plug, git: "https://github.com/blockscout/absinthe_plug.git", tag: "1.5.3", override: true},
       {:tesla, "~> 1.3.3"},
       # Documentation
-      {:ex_doc, "~> 0.25.2", only: :dev, runtime: false},
+      {:ex_doc, "~> 0.28.2", only: :dev, runtime: false},
       {:number, "~> 1.0.3"}
     ]
   end

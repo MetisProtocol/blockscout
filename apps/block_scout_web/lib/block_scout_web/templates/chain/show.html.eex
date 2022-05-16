@@ -1,4 +1,4 @@
-<div class='dashboard-banner-container' data-page="chain-details">
+<div class='dashboard-banner-container' data-page="chain-details" style="background: #303042 url('/images/metis-splash.png') left bottom no-repeat!important; background-size: contain;">
   <div class="container">
     <div class="dashboard-banner">
       <div class="dashboard-banner-splash">
@@ -41,7 +41,7 @@
             <%= if Enum.member?(market_chart_config, :price) do %>
                 <div class="dashboard-banner-chart-legend-item">
                     <span class="dashboard-banner-chart-legend-label">
-                    <%= gettext "Price" %>
+                    <%= System.get_env("COIN_NAME") || System.get_env("COIN") %> <%= gettext "Price" %>
                     </span>
                     <div class="dashboard-banner-chart-legend-value-container">
                       <span class="dashboard-banner-chart-legend-value inline" data-selector="exchange-rate" data-wei-value="<%= Explorer.Chain.Wei.from(Decimal.new(1), :ether).value %>" data-usd-exchange-rate="<%= @exchange_rate.usd_value %>">
@@ -134,7 +134,7 @@
             <span class="dashboard-banner-network-stats-label">
               <%= gettext "Total transactions" %>
             </span>
-            <div style="display: flex;">
+            <div class="d-flex">
               <span class="dashboard-banner-network-stats-value" data-selector="transaction-count">
                 <%= BlockScoutWeb.Cldr.Number.to_string!(@transaction_estimated_count, format: "#,###") %>
               </span>

@@ -30,8 +30,8 @@ $dashboard-banner-chart-axis-font-color-alt: #333;
   @include media-breakpoint-down(md) {
       height: auto;
   }
-  background: $metis-primary url('/images/metis-splash.png') left bottom no-repeat!important;
-  background-size: contain;
+  // background: $metis-primary url('/images/metis-splash.png') left bottom no-repeat!important;
+  // background-size: contain;
 }
 
 .dashboard-banner {

@@ -50,7 +50,7 @@ defmodule BlockScoutWeb.AddressReadContractControllerTest do
         block_index: 0
       )
 
-      insert(:smart_contract, address_hash: contract_address.hash)
+      insert(:smart_contract, address_hash: contract_address.hash, contract_code_md5: "123")
 
       get_eip1967_implementation()
 
@@ -85,6 +85,12 @@ defmodule BlockScoutWeb.AddressReadContractControllerTest do
 
   def get_eip1967_implementation do
     EthereumJSONRPC.Mox
+    |> expect(
+      :json_rpc,
+      fn [%{id: id, method: "eth_getCode", params: [_, _]}], _options ->
+        {:ok, [%{id: id, jsonrpc: "2.0", result: "0x0"}]}
+      end
+    )
     |> expect(:json_rpc, fn %{
                               id: 0,
                               method: "eth_getStorageAt",
