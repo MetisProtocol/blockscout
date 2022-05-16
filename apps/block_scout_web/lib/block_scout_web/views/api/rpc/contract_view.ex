@@ -74,14 +74,14 @@ defmodule BlockScoutWeb.API.RPC.ContractView do
 
   defp set_proxy_info(contract_output, contract) do
     result =
-      if contract.is_proxy do
+      if Map.has_key?(contract, :is_proxy) && contract.is_proxy do
         contract_output
         |> Map.put_new(:ImplementationAddress, contract.implementation_address_hash_string)
       else
         contract_output
       end
 
-    is_proxy_string = if contract.is_proxy, do: "true", else: "false"
+    is_proxy_string = if Map.has_key?(contract, :is_proxy) && contract.is_proxy, do: "true", else: "false"
 
     result
     |> Map.put_new(:IsProxy, is_proxy_string)
