@@ -6,8 +6,8 @@ defmodule BlockScout.Mixfile do
   def project do
     [
       app: :block_scout,
-      aliases: aliases(Mix.env()),
-      version: "4.1.2",
+      # aliases: aliases(config_env()),
+      version: "4.1.3",
       apps_path: "apps",
       deps: deps(),
       dialyzer: dialyzer(),
@@ -16,7 +16,7 @@ defmodule BlockScout.Mixfile do
         credo: :test,
         dialyzer: :test
       ],
-      start_permanent: Mix.env() == :prod,
+      # start_permanent: config_env() == :prod,
       releases: [
         blockscout: [
           applications: [
@@ -42,23 +42,23 @@ defmodule BlockScout.Mixfile do
     ]
   end
 
-  defp aliases(env) do
-    [
-      # to match behavior of `mix test` in `apps/indexer`, which needs to not start applications for `indexer` to
-      # prevent its supervision tree from starting, which is undesirable in test
-      test: "test --no-start"
-    ] ++ env_aliases(env)
-  end
+  # defp aliases(env) do
+  #   [
+  #     # to match behavior of `mix test` in `apps/indexer`, which needs to not start applications for `indexer` to
+  #     # prevent its supervision tree from starting, which is undesirable in test
+  #     test: "test --no-start"
+  #   ] ++ env_aliases(env)
+  # end
 
-  defp env_aliases(:dev) do
-    []
-  end
+  # defp env_aliases(:dev) do
+  #   []
+  # end
 
-  defp env_aliases(_env) do
-    [
-      compile: "compile"
-    ]
-  end
+  # defp env_aliases(_env) do
+  #   [
+  #     compile: "compile --warnings-as-errors"
+  #   ]
+  # end
 
   # Dependencies can be Hex packages:
   #
