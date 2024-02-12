@@ -17,28 +17,6 @@ config :logger,
   backends: [
     # all applications and all levels
     :console,
-    # all applications, but only errors
-    {LoggerFileBackend, :error},
-    # only :ecto, but all levels
-    {LoggerFileBackend, :ecto},
-    # only :block_scout_web, but all levels
-    {LoggerFileBackend, :block_scout_web},
-    # only :ethereum_jsonrpc, but all levels
-    {LoggerFileBackend, :ethereum_jsonrpc},
-    # only :explorer, but all levels
-    {LoggerFileBackend, :explorer},
-    # only :indexer, but all levels
-    {LoggerFileBackend, :indexer},
-    {LoggerFileBackend, :indexer_token_balances},
-    {LoggerFileBackend, :token_instances},
-    {LoggerFileBackend, :reading_token_functions},
-    {LoggerFileBackend, :pending_transactions_to_refetch},
-    {LoggerFileBackend, :empty_blocks_to_refetch},
-    {LoggerFileBackend, :withdrawal},
-    {LoggerFileBackend, :api},
-    {LoggerFileBackend, :block_import_timings},
-    {LoggerFileBackend, :account},
-    {LoggerFileBackend, :api_v2},
     LoggerJSON
   ]
 

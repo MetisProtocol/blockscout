@@ -10,7 +10,7 @@ const DATE_FORMAT = 'YYYY-MM-DD'
 const $button = $('#export-csv-button')
 
 // eslint-disable-next-line
-const _instance1 = generateDatePicker('.js-datepicker-from', moment().add(-1, 'months').toDate())
+const _instance1 = generateDatePicker('.js-datepicker-from', moment().add(-7, 'days').toDate())
 // eslint-disable-next-line
 const _instance2 = generateDatePicker('.js-datepicker-to', new Date())
 

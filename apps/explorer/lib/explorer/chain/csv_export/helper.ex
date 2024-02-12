@@ -12,7 +12,7 @@ defmodule Explorer.Chain.CSVExport.Helper do
       where: 3
     ]
 
-  @limit 10_000
+  @limit 1_000
   @page_size 150
   @default_paging_options %PagingOptions{page_size: @page_size}
 

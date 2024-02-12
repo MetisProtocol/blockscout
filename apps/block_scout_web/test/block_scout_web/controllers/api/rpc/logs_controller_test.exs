@@ -267,7 +267,7 @@ defmodule BlockScoutWeb.API.RPC.LogsControllerTest do
 
       assert response["result"] == []
       assert response["status"] == "0"
-      assert response["message"] == "No logs found"
+      assert response["message"] == "No records found"
       assert :ok = ExJsonSchema.Validator.validate(getlogs_schema(), response)
     end
 

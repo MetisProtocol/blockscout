@@ -17,7 +17,7 @@ defmodule BlockScoutWeb.API.RPC.LogsController do
         render(conn, :error, error: "Invalid #{param} format")
 
       {:error, :not_found} ->
-        render(conn, :error, error: "No logs found", data: [])
+        render(conn, :error, error: "No records found", data: [])
     end
   end
 
